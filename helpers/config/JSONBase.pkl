@@ -1,0 +1,30 @@
+module JSONBase
+class OpenAIParameters {
+        // token limit values are arbitrary atm, need to base it off the model
+        max_tokens: Int(isBetween(128,4096))
+        // top_p has no limits afaik, the rest are constrained per OpenAI specs
+        temperature: Float(isBetween(0, 2))
+        top_p: Float
+        presence_penalty: Float(isBetween(-2,2))
+        frequency_penalty: Float(isBetween(-2,2))
+}
+
+class InputVariable {
+    name: String =  "input"
+    description: String = "User Input"
+    default: String = ""
+}
+
+schema: Int =  1
+description: String = "Generate a response appropriate to the message being asked."
+execution_settings {
+    // default is a reserved keyword so this is a Mapping instead of an object
+    ["default"] = new OpenAIParameters {
+        max_tokens = 256
+        temperature = 0.0
+        top_p = 0.0
+        presence_penalty = 0.0
+        frequency_penalty = 0.0
+    }
+}
+input_variables: Listing<InputVariable>?
