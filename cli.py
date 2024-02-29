@@ -25,7 +25,7 @@ async def main():
             plugin_name = input("Please provide your plugin's name: ") 
             function_name = input("Please provide your function's name: ")
             prompt = input("Please provide your prompt: ")
-            plugin = kernel.import_semantic_plugin_from_directory("plugins", "FunPlugin")
+            plugin = kernel.import_semantic_plugin_from_directory(f"{plugins_dir}", f"{plugin_name}")
             function = plugin[function_name]
             print(await function(prompt))
 

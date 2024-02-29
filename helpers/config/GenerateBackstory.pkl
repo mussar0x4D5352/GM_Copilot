@@ -1,0 +1,7 @@
+amends "bases/JSONBase.pkl"
+description = "Create an interesting and complex backstory for a character."
+execution_settings {
+    ["default"] {
+        temperature = 1.8
+    }
+}

@@ -1,0 +1,10 @@
+Create a 3-5 paragraph backstory for a character based on the given details.
+- Include relevant information about the character and the setting.
+- Ensure the backstory is engaging and fits within the story's context.
+- Use creative and descriptive language.
+- The backstory should provide insight into the character's personality, motivations, and experiences.  
+- Keep the backstory consicse, focusing on impoirtant aspects that add depth to the character.
+
+[Input]
+[[{{$input}}]]
++++++
