@@ -1,37 +1,55 @@
 #!/usr/bin/env python3
 
-import semantic_kernel as sk
-from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+import argparse
 import asyncio
- 
 
-async def main():
-    kernel = sk.Kernel()
-    api_key, org_id = sk.openai_settings_from_dot_env()
+from langchain_community.llms import Ollama
+from langchain_openai import ChatOpenAI
 
-    kernel.add_chat_service(
-        "chat-gpt",
-        OpenAIChatCompletion(ai_model_id="gpt-3.5-turbo-1106", api_key=api_key, org_id=org_id),
+
+def create_parser():
+
+    parser = argparse.ArgumentParser(description="Chat with your RPG Manual!")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--openai",
+        action="store_true",
+        help="Choose OpenAI as your language model provider.",
+    )
+    group.add_argument(
+        "--ollama",
+        action="store_true",
+        help="Choose Ollama as your language model provider.",
+    )
+    parser.add_argument(
+        "-p",
+        "--prompt",
+        help="Pass the specified text (or stdin) as your prompt.",
+    )
+    parser.add_argument(
+        "-i",
+        "--interactive",
+        action="store_true",
+        help="Start an interactive chat session.",
     )
 
-    while True:
-        command = input('''Please Select an option:
-                        1. Plugins
-                        3. Quit
-                        ''')
-        # Get user input
-        if command.lower() == '1':
-            plugins_dir = input("Please provide your plugins directory: ")
-            plugin_name = input("Please provide your plugin's name: ") 
-            function_name = input("Please provide your function's name: ")
-            prompt = input("Please provide your prompt: ")
-            plugin = kernel.import_semantic_plugin_from_directory(f"{plugins_dir}", f"{plugin_name}")
-            function = plugin[function_name]
-            print(await function(prompt))
+    return parser
 
 
-        elif command.lower() == '3':
-            break
+async def main():
+    """
+    docstring goes here
+    """
+    args = create_parser().parse_args()
 
-if __name__ == '__main__':
+    if args.openai:
+        chat = ChatOpenAI()
+    elif args.ollama:
+        chat = Ollama(model="llama2")
+
+    while args.interactive:
+        pass
+
+
+if __name__ == "__main__":
     asyncio.run(main())
